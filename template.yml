@@ -44,6 +44,7 @@ Resources:
       SecurityGroups: [ !Ref 'InstanceSecurityGroup' ]
       KeyName: 'EC2Keypair'
       ImageId: ami-064446ad1d755489e
+      SubnetId: subnet-a6de62cd
 Outputs:
   Employee:
     Description: Table Created using this template.
