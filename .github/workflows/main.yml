@@ -21,3 +21,4 @@ jobs:
       with:
        name: MyStack
        template: template.yml
+       no-fail-on-empty-changeset: "1"
