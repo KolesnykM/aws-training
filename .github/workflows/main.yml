@@ -9,6 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -19,4 +20,4 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
        name: MyStack
-       template: template.yaml
+       template: template.yml
