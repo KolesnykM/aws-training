@@ -25,7 +25,25 @@ Resources:
           KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 5
-        WriteCapacityUnits: 5 
+        WriteCapacityUnits: 5
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: "vpc-ff35a094"
+      GroupDescription: "Enable SSH access via port 22"
+      SecurityGroupIngress:
+        - CidrIp: "0.0.0.0/0"
+          Description: "Allowed from anywhere"
+          FromPort: "22"
+          ToPort: "22"
+          IpProtocol: "tcp"
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: "t2.micro"
+      SecurityGroups: [ !Ref 'InstanceSecurityGroup' ]
+      KeyName: 'EC2Keypair'
+      ImageId: ami-064446ad1d755489e
 Outputs:
   Employee:
     Description: Table Created using this template.
