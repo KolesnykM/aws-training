@@ -43,7 +43,7 @@ public class BookCrudDaoImpl implements BookCrudDao {
         Map<String, ExpectedAttributeValue> expectedAttributeValueMap = new HashMap<>();
         expectedAttributeValueMap.put("ISBN", new ExpectedAttributeValue(new AttributeValue().withS(bookId)));
         DynamoDBDeleteExpression deleteExpression = new DynamoDBDeleteExpression().withExpected(expectedAttributeValueMap);
-        Book book= Book.builder()
+        Book book = Book.builder()
                 .isbn(bookId)
                 .build();
         dynamoDBMapper.delete(book, deleteExpression);
