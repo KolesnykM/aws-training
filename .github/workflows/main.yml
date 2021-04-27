@@ -20,4 +20,4 @@ jobs:
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
        name: MyStack
-       template: template.yaml
+       template: template.yml
