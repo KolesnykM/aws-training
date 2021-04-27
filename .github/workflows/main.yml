@@ -9,11 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: mgenteluci/cloudformation-deploy-action@v1.4.0
-      env:
-        TEMPLATE: 'template.yml'
-        AWS_STACK_NAME: 'my-stack'
-        AWS_REGION: 'us-east-2'
-        AWS_ACCESS_KEY_ID: ${{secrets.ACCESS_KEY}}
-        AWS_SECRET_ACCESS_KEY: ${{secrets.SECRET_KEY}}
-        AWS_DEPLOY_BUCKET: ${{secrets.BUCKET}}
+    
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_KEY }}
+          aws-region: us-east-2
+    - name: Deploy to AWS CloudFormation
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+       name: MyStack
+       template: template.yaml
