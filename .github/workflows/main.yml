@@ -30,17 +30,13 @@ jobs:
     - name: Build with Maven
       run: mvn --batch-mode --update-snapshots verify
 
-    - name: Create SSH key
-      run: |
-          mkdir -p ~/.ssh/
-          echo "EC2KEYPAIR" > ../private.key
-          sudo chmod 600 ../private.key
-          echo "KNOWN_HOSTS" > ~/.ssh/known_hosts
-      shell: bash
-      env:
-          SSH_PRIVATE_KEY: ${{secrets.EC2KEYPAIR}}
-          SSH_KNOWN_HOSTS: ${{secrets.KNOWN_HOSTS}}
-          SSH_KEY_PATH: ${{ github.workspace }}/../private.key
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
+      with:
+          key: ${{ secrets.EC2KEYPAIR }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+    - name: Adding Known Hosts
+      run: ssh-keyscan -H ${{ secrets.KNOWN_HOSTS }} >> ~/.ssh/known_hosts
 
     - name: Copy jar to ec2
-      run: scp -i ${{env.SSH_KEY_PATH}} 'target/awsdemo-0.0.1-SNAPSHOT.jar' ubuntu@${{ secrets.KNOWN_HOSTS }}:~/aws
+      run: scp 'target/awsdemo-0.0.1-SNAPSHOT.jar' ubuntu@${{ secrets.KNOWN_HOSTS }}:~/aws
