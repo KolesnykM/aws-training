@@ -126,13 +126,13 @@ Resources:
       Timeout: 60
       MemorySize: 128
 
-    LambdaFunctionEventSourceMapping:
-      Type: AWS::Lambda::EventSourceMapping
-      Properties:
-        BatchSize: 10
-        Enabled: true
-        EventSourceArn: !GetAtt MyQueue.Arn
-        FunctionName: !GetAtt LambdaFunction.Arn
+  LambdaFunctionEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 10
+      Enabled: true
+      EventSourceArn: !GetAtt MyQueue.Arn
+      FunctionName: !GetAtt LambdaFunction.Arn
 Outputs:
   Employee:
     Description: Table Created using this template.
