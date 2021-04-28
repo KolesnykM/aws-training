@@ -52,6 +52,29 @@ Resources:
       KeyName: 'EC2Keypair'
       ImageId: ami-08962a4068733a2b6
       SubnetId: subnet-a6de62cd
+      IamInstanceProfile: !Ref RootInstanceProfile
+  RootRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
+        - "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "ec2.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+    RootInstanceProfile:
+      Type: "AWS::IAM::InstanceProfile"
+      Properties:
+        Path: "/"
+        Roles:
+          - Ref: "RootRole"
 Outputs:
   Employee:
     Description: Table Created using this template.
