@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class BookCrudController {
     private static final String CREATE = "{\"book\":\"%s\", \"message\":\"has been create\", \"time\":\"%s\"}";
     private static final String UPDATE = "{\"book\":\"%s\", \", \"message\":\"has been update on %s\", \"time\":\"%s\"}";
-    private static final String READ = "{\"book\":\"%s\", \", \"message\":\"has been read with id %s\", \"time\":\"%s\"}";
+    private static final String READ = "{\"book\":\"%s\", \"message\":\"has been read with id %s\", \"time\":\"%s\"}";
     private static final String DELETE = "{\"message\":\"The book with id %s has been delete\", \"time\":\"%s\"}";
     @Autowired
     private BookCrudService bookCrudService;

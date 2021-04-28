@@ -120,7 +120,7 @@ Resources:
                   'statusCode': 200,
                   'body': json.dumps('Hello from Lambda!')
               }
-      Handler: lambda_function.lambda_handler
+      Handler: index.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Runtime: python3.8
       Timeout: 3
