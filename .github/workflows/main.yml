@@ -36,4 +36,4 @@ jobs:
           name: id_rsa
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
     - name: Copy jar to ec2
-      run: scp 'target/awsdemo-0.0.1-SNAPSHOT.jar' ubuntu@${{ secrets.KNOWN_HOSTS }}:~/aws
+      run: scp -i ~/.ssh/id_rsa 'target/awsdemo-0.0.1-SNAPSHOT.jar' ubuntu@${{ secrets.KNOWN_HOSTS }}:~/aws
