@@ -36,8 +36,8 @@ jobs:
           echo "EC2KEYPAIR" > ../private.key
           sudo chmod 600 ../private.key
           echo "KNOWN_HOSTS" > ~/.ssh/known_hosts
-        shell: bash
-        env:
+      shell: bash
+      env:
           SSH_PRIVATE_KEY: ${{secrets.EC2KEYPAIR}}
           SSH_KNOWN_HOSTS: ${{secrets.KNOWN_HOSTS}}
           SSH_KEY_PATH: ${{ github.workspace }}/../private.key
