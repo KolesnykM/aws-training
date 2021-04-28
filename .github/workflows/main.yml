@@ -41,9 +41,3 @@ jobs:
     - name: Copy jar to ec2
       run: scp target/awsdemo-0.0.1-SNAPSHOT.jar ubuntu@${{ secrets.KNOWN_HOSTS }}:~/aws
 
-    - name: Connect to ec2
-      run: ssh ubuntu@${{ secrets.KNOWN_HOSTS }}
-
-    - name: Run app
-      run:  sudo yum install java-1.8.0
-
