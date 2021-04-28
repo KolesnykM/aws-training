@@ -133,6 +133,7 @@ Resources:
       Enabled: true
       EventSourceArn: !GetAtt MyQueue.Arn
       FunctionName: !GetAtt LambdaFunction.Arn
+
 Outputs:
   Employee:
     Description: Table Created using this template.
