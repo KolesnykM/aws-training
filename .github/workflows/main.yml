@@ -8,10 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        app-name: [ 'awsdemo' ]
-        repo: [ ' KolesnykM/aws-training' ]
     steps:
     - uses: actions/checkout@v2
     - name: Configure AWS Credentials
@@ -39,10 +35,5 @@ jobs:
           key: ${{ secrets.EC2Keypair }}
           name: id_rsa
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
-    - name: Deploy to AWS
-      run: |
-        aws deploy create-deployment \
-        --application-name ${{ matrix.app-name }} \
-        --deployment-config-name CodeDeployDefault.OneAtATime \
-        --description "GitHub Deployment for the ${{ matrix.app-name }}-${{ github.sha }}" \
-        --github-location repository=${{ matrix.repo }},commitId=${{ github.sha }}
+    - name: Copy jar to ec2
+      run: scp -i target/awsdemo-0.0.1-SNAPSHOT.jar ubuntu@ec2-3-12-34-6.us-east-2.compute.amazonaws.com:~/aws
