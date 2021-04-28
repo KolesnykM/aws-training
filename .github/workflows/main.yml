@@ -29,9 +29,10 @@ jobs:
          distribution: 'adopt'
     - name: Build with Maven
       run: mvn --batch-mode --update-snapshots verify
+
     - name: Install SSH key
-      uses: ./
+      uses: webfactory/ssh-agent@v0.5.2
       with:
-          ssh-private-key: ${{ secrets.EC2Keypair }}
+          ssh-private-key: ${{ secrets.EC2KEYPAIR }}
     - name: Copy jar to ec2
       run: scp 'target/awsdemo-0.0.1-SNAPSHOT.jar' ubuntu@${{ secrets.KNOWN_HOSTS }}:~/aws
