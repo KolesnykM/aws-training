@@ -30,9 +30,24 @@ jobs:
     - name: Build with Maven
       run: mvn --batch-mode --update-snapshots verify
 
+    - name: Create SSH key
+      run: |
+          mkdir -p ~/.ssh/
+          echo "EC2KEYPAIR" > ../private.key
+          sudo chmod 600 ../private.key
+          echo "KNOWN_HOSTS" > ~/.ssh/known_hosts
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.EC2KEYPAIR}}
+          SSH_KNOWN_HOSTS: ${{secrets.KNOWN_HOSTS}}
+          SSH_KEY_PATH: ${{ github.workspace }}/../private.key
+
+
     - name: Install SSH key
-      uses: webfactory/ssh-agent@v0.5.2
+      uses: shimataro/ssh-key-action@v2
       with:
-          ssh-private-key: ${{ secrets.EC2KEYPAIR }}
+          key: ${{ secrets.EC2KEYPAIR }}
+          name: id_rsa
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
     - name: Copy jar to ec2
       run: scp 'target/awsdemo-0.0.1-SNAPSHOT.jar' ubuntu@${{ secrets.KNOWN_HOSTS }}:~/aws
