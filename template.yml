@@ -69,9 +69,9 @@ Resources:
             Action:
               - "sts:AssumeRole"
       Path: "/"
-    RootInstanceProfile:
-      Type: "AWS::IAM::InstanceProfile"
-      Properties:
+  RootInstanceProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
         Path: "/"
         Roles:
           - Ref: "RootRole"
