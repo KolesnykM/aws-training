@@ -75,6 +75,8 @@ Resources:
         Path: "/"
         Roles:
           - Ref: "RootRole"
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
 Outputs:
   Employee:
     Description: Table Created using this template.
