@@ -43,7 +43,6 @@ jobs:
 
     - name: Run jar in ec2
       run: |
-      ssh ubuntu@${{ secrets.KNOWN_HOSTS }}:~/aws
-      cd aws
-      java -jar awsdemo-0.0.1-SNAPSHOT.jar
+      ssh ubuntu@${{ secrets.KNOWN_HOSTS }}
+      java -jar aws/awsdemo-0.0.1-SNAPSHOT.jar
 
