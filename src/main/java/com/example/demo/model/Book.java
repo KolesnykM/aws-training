@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamoDBTable(tableName = "Books_Descriptions")
+@DynamoDBTable(tableName = "Books_Descriptions1")
 public class Book {
 
     @DynamoDBHashKey(attributeName = "ISBN")
