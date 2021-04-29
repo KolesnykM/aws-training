@@ -42,7 +42,7 @@ public class BookCrudController {
         }
     }
 
-    @GetMapping("/{bookId}")
+    @GetMapping("/{book}")
     public ResponseEntity readBook(@PathVariable String bookId) {
         try {
             Book response = bookCrudService.readBook(bookId);
