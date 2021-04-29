@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: AWS CloudFormation Template To Create a DynamoDB
+Description: AWS CloudFormation Template
 
 Parameters:
   HashKeyElementName:
@@ -11,6 +11,7 @@ Parameters:
     Default: S
     Description: Hash Key Type
 Resources:
+  #---create dynamoDB table-----
   EmployeeTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -26,6 +27,7 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
+  #---create SecurityGroup for ec2-----
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -42,6 +44,7 @@ Resources:
           FromPort: "8443"
           ToPort: "8443"
           IpProtocol: "tcp"
+  #---create ec2-----
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
@@ -53,6 +56,7 @@ Resources:
       ImageId: ami-08962a4068733a2b6
       SubnetId: subnet-a6de62cd
       IamInstanceProfile: !Ref RootInstanceProfile
+  #---create role for ec2-----
   RootRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -69,12 +73,14 @@ Resources:
             Action:
               - "sts:AssumeRole"
       Path: "/"
+  #---create profile for role-----
   RootInstanceProfile:
     Type: "AWS::IAM::InstanceProfile"
     Properties:
         Path: "/"
         Roles:
           - Ref: "RootRole"
+  #---create s3 -----
   MyS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -84,10 +90,12 @@ Resources:
         BlockPublicPolicy: true
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
+  #---create SQS -----
   MyQueue:
     Type: AWS::SQS::Queue
     Properties:
       DelaySeconds: 0
+  #---create role for lambda-----
   LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -103,6 +111,7 @@ Resources:
                 - lambda.amazonaws.com
             Action:
               - sts:AssumeRole
+  #---create lambda-----
   LambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
@@ -125,7 +134,7 @@ Resources:
       Runtime: python3.8
       Timeout: 3
       MemorySize: 128
-
+  #---create trigger lambda-----
   LambdaFunctionEventSourceMapping:
     Type: AWS::Lambda::EventSourceMapping
     Properties:
