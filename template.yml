@@ -15,7 +15,7 @@ Resources:
   EmployeeTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: Books_Descriptions1
+      TableName: books_descriptions
       AttributeDefinitions:
         - 
           AttributeName: !Ref HashKeyElementName
