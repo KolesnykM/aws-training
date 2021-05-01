@@ -4,11 +4,14 @@ import com.example.demo.dao.BookCrudDao;
 import com.example.demo.dto.BookDto;
 import com.example.demo.mapper.BooksMapperImpl;
 import com.example.demo.entity.Book;
-import com.example.demo.message.MessageBuilder;
+import com.example.demo.message.BookMessageBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.aws.messaging.core.QueueMessagingTemplate;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
@@ -27,7 +30,7 @@ public class BookCrudServiceImpl implements BookCrudService {
         final Book book = booksMapper.bookDtoToBook(bookDto);
         final Book result = bookCrudDao.createBook(book);
         log.info("Create book {}", result);
-        MessageBuilder message = MessageBuilder.builder()
+        BookMessageBuilder message = BookMessageBuilder.builder()
                 .book(result.toString())
                 .message("has been create")
                 .time(LocalDateTime.now().toString())
@@ -40,7 +43,7 @@ public class BookCrudServiceImpl implements BookCrudService {
     public Book readBook(String bookId) {
         final Book book = bookCrudDao.readBook(bookId);
         log.info("Read book {}", book);
-        MessageBuilder message = MessageBuilder.builder()
+        BookMessageBuilder message = BookMessageBuilder.builder()
                 .book(book.toString())
                 .message("has been read with id" + bookId)
                 .time(LocalDateTime.now().toString())
@@ -54,7 +57,7 @@ public class BookCrudServiceImpl implements BookCrudService {
         final Book book = booksMapper.bookDtoToBook(bookDto);
         final Book result = bookCrudDao.updateBook(book);
         log.info("Update book {} on {}", book, result);
-        MessageBuilder message = MessageBuilder.builder()
+        BookMessageBuilder message = BookMessageBuilder.builder()
                 .book(book.toString())
                 .message("has been update on " + result)
                 .time(LocalDateTime.now().toString())
@@ -67,15 +70,18 @@ public class BookCrudServiceImpl implements BookCrudService {
     public void deleteBook(String bookId) {
         bookCrudDao.deleteBook(bookId);
         log.info("Delete book with id {}", bookId);
-        MessageBuilder message = MessageBuilder.builder()
+        BookMessageBuilder message = BookMessageBuilder.builder()
                 .message("The book with id" + bookId + "has been delete")
                 .time(LocalDateTime.now().toString())
                 .build();
         sendMessageToSQS(message);
     }
 
-    private void sendMessageToSQS(MessageBuilder message) {
-        log.debug("Send message {}", message);
-        queueMessagingTemplate.send(endpoint, org.springframework.messaging.support.MessageBuilder.withPayload(message).build());
+    @SneakyThrows
+    private void sendMessageToSQS(BookMessageBuilder message) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String messageAsString = objectMapper.writeValueAsString(message);
+        log.debug("Send message {}", messageAsString);
+        queueMessagingTemplate.send(endpoint, MessageBuilder.withPayload(messageAsString).build());
     }
 }
