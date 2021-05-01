@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.*;
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamoDBTable(tableName = "Books_Descriptions1")
+@DynamoDBTable(tableName = "books_descriptions")
 public class Book {
 
     @DynamoDBHashKey(attributeName = "ISBN")

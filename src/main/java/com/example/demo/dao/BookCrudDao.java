@@ -1,6 +1,6 @@
 package com.example.demo.dao;
 
-import com.example.demo.model.Book;
+import com.example.demo.entity.Book;
 
 public interface BookCrudDao {
     Book createBook(Book book);

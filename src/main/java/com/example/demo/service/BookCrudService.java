@@ -1,13 +1,14 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Book;
+import com.example.demo.dto.BookDto;
+import com.example.demo.entity.Book;
 
 public interface BookCrudService {
-    Book createBook(Book book);
+    Book createBook(BookDto bookDto);
 
     Book readBook(String bookId);
 
-    Book updateBook(Book book);
+    Book updateBook(BookDto bookDto);
 
     void deleteBook(String bookId);
 }
