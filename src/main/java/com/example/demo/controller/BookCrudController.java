@@ -58,7 +58,7 @@ public class BookCrudController {
     public ResponseEntity deleteBook(@PathVariable String bookId) {
         try {
             bookCrudService.deleteBook(bookId);
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.status(HttpStatus.OK).body(bookId);
         } catch (AmazonServiceException e) {
             throw new ResponseStatusException(HttpStatus.valueOf(e.getStatusCode()), e.getMessage(), e);
         } catch (AmazonClientException e) {
