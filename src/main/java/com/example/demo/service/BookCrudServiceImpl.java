@@ -85,4 +85,5 @@ public class BookCrudServiceImpl implements BookCrudService {
         log.debug("Send message {}", messageAsString);
         queueMessagingTemplate.send(endpoint, MessageBuilder.withPayload(messageAsString).build());
     }
+
 }
